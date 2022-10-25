@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 10:50:49 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/10/25 17:09:05 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/10/25 18:34:53 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*ft_itoa(int n);
 char	**ft_split(char const *s, char c);
-
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
