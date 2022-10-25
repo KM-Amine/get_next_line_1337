@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 07:38:54 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/10/25 18:41:32 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:32:48 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,24 +97,3 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-
-// int	main(void)
-// {
-// 	char *tmp =(char *)ft_calloc(1,1);
-// 	int fd;
-// 	//char *line;
-
-// 	fd = open("file.txt",O_RDONLY);
-// 	get_next_line(fd);
-// 	printf("=======");
-// 	get_next_line(fd);	
-// 	//printf("%s",get_next_line(fd));	
-// 	//printf("%s",*/get_next_line(fd));	
-// 	// tmp = read_line(fd,tmp);
-// 	// printf("%s\n",tmp);
-// 	// tmp = truncate_tmp(tmp);
-// 	// printf("%s\n",tmp);
-// 	// tmp = read_line(fd,tmp);
-// 	// printf("%s",tmp);
-// 	return 0;
-// }
