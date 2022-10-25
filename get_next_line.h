@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 10:50:49 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/10/22 18:45:46 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/10/25 17:09:05 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**ft_split(char const *s, char c);
 
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 42
 # endif
 
 #endif
