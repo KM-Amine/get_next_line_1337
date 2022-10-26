@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 07:38:54 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/10/25 19:32:48 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/10/26 10:11:47 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,22 @@ char	*truncate_line(char *tmp)
 
 char	*truncate_tmp(char *tmp)
 {
-	int	len;
+	int		len;
+	char	*str;
 
 	if (ft_strchr(tmp, '\n') == 0)
-		return ((char *)ft_calloc(1, 1));
+	{
+		free(tmp);
+		return (NULL);
+	}
 	len = 0;
 	while (tmp[len] != '\n' && tmp[len] != '\0')
 		len++;
+	str = tmp;
 	tmp = ft_substr(tmp, len + 1, ft_strlen(tmp));
 	if (tmp == NULL)
 		return (NULL);
+	free(str);
 	return (tmp);
 }
 
@@ -63,13 +69,12 @@ char	*get_next_line(int fd)
 {
 	static char	*tmp;
 	char		*line;
-	char		*str;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	if (tmp == NULL)
-		tmp = (char *)ft_calloc(1, 1);
 	tmp = read_line(fd, tmp);
+	if (tmp == NULL)
+		return (NULL);
 	if (tmp[0] == '\0')
 	{
 		free(tmp);
@@ -77,14 +82,9 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	line = truncate_line(tmp);
-	str = truncate_tmp(tmp);
-	if (str[0] == '\0')
-	{
-		free(str);
-		str = NULL;
-	}
-	free(tmp);
-	tmp = str;
+	if (line == NULL)
+		return (NULL);
+	tmp = truncate_tmp(tmp);
 	return (line);
 }
 
@@ -92,6 +92,8 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
+	if (s == NULL)
+		return (0);
 	i = 0;
 	while (s[i])
 		i++;

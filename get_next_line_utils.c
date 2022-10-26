@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:30:59 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/10/25 19:32:55 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/10/26 09:56:40 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*ft_strchr(const char *s, int c)
 	int	i;
 	int	len;
 
+	if (!s)
+		return (0);
 	i = 0;
 	len = ft_strlen(s);
 	while (i <= len)
@@ -60,12 +62,12 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	if (s1 == NULL || s2 == NULL)
-		return (0);
+	if (s1 == NULL)
+		s1 = (char *)ft_calloc(1, 1);
 	len = ft_strlen(s1);
 	len += ft_strlen((s2));
 	result = (char *)ft_calloc(sizeof(char), len + 1);
-	if (!result)
+	if (!result || !s1)
 		return (0);
 	i = 0;
 	while (s1[i] && i < len)
