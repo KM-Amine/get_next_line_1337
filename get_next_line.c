@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 07:38:54 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/10/26 10:11:47 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/10/28 09:20:05 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ char	*read_line(int fd, char *tmp)
 	{
 		is_read = read(fd, buff, BUFFER_SIZE);
 		if (is_read == -1)
+		{
+			free(tmp);
 			return (NULL);
+		}
 		tmp = ft_strjoin(tmp, buff);
 		if (tmp == NULL)
 			return (NULL);
@@ -34,29 +37,22 @@ char	*read_line(int fd, char *tmp)
 	return (tmp);
 }
 
-char	*truncate_line(char *tmp)
-{
-	int	len;
-
-	len = 0;
-	while (tmp[len] != '\n' && tmp[len] != '\0' )
-		len++;
-	return (ft_substr(tmp, 0, len + 1));
-}
-
-char	*truncate_tmp(char *tmp)
+char	*truncate_tmp(char *tmp, char **line)
 {
 	int		len;
 	char	*str;
 
+	len = 0;
+	while (tmp[len] != '\n' && tmp[len] != '\0' )
+		len++;
+	*line = ft_substr(tmp, 0, len + 1);
+	if (*line == NULL)
+		return (NULL);
 	if (ft_strchr(tmp, '\n') == 0)
 	{
 		free(tmp);
 		return (NULL);
 	}
-	len = 0;
-	while (tmp[len] != '\n' && tmp[len] != '\0')
-		len++;
 	str = tmp;
 	tmp = ft_substr(tmp, len + 1, ft_strlen(tmp));
 	if (tmp == NULL)
@@ -70,7 +66,7 @@ char	*get_next_line(int fd)
 	static char	*tmp;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	tmp = read_line(fd, tmp);
 	if (tmp == NULL)
@@ -81,10 +77,7 @@ char	*get_next_line(int fd)
 		tmp = NULL;
 		return (NULL);
 	}
-	line = truncate_line(tmp);
-	if (line == NULL)
-		return (NULL);
-	tmp = truncate_tmp(tmp);
+	tmp = truncate_tmp(tmp, &line);
 	return (line);
 }
 

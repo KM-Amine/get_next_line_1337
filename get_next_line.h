@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 10:50:49 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/10/26 09:11:53 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/10/28 08:48:25 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_next_line(int fd);
 
 char	*read_line(int fd, char *tmp);
 char	*truncate_line(char *tmp);
-char	*truncate_tmp(char *tmp);
+char	*truncate_tmp(char *tmp, char **line);
 size_t	ft_strlen(const char *s);
 void	ft_bzero(void *s, size_t n);
 char	*ft_strchr(const char *s, int c);
