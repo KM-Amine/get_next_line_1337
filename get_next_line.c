@@ -6,13 +6,11 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 07:38:54 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/10/28 18:18:42 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/10/30 09:11:31 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-#include <fcntl.h>
 
 char	*read_line(int fd, char *tmp)
 {
@@ -56,7 +54,10 @@ char	*truncate_tmp(char *tmp, char **line)
 	str = tmp;
 	tmp = ft_substr(tmp, len + 1, ft_strlen(tmp));
 	if (tmp == NULL)
+	{
+		free(*line);
 		return (NULL);
+	}
 	free(str);
 	return (tmp);
 }

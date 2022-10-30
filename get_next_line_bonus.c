@@ -6,13 +6,11 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 07:38:54 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/10/28 12:45:17 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/10/30 09:11:44 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include <stdio.h>
-#include <fcntl.h>
 
 char	*read_line(int fd, char *tmp)
 {
