@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 07:38:54 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/10/30 09:11:31 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/11/11 19:57:35 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,41 @@ char	*truncate_tmp(char *tmp, char **line)
 	return (tmp);
 }
 
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	i;
+
+	i = 0;
+	if (!dstsize || !src)
+	{
+		ft_bzero(dst, BUFFER_SIZE +1);
+		return (ft_strlen(src));
+	}
+	while (src[i] && i < dstsize - 1)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (ft_strlen(src));
+}
+
 char	*get_next_line(int fd)
 {
-	static char	*tmp;
+	static char	buff[BUFFER_SIZE +1];
+	char		*tmp;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd == 1 || fd == 2)
 		return (NULL);
+	tmp = (char *)calloc(1, BUFFER_SIZE + 1);
+	ft_strlcpy(tmp, buff, BUFFER_SIZE + 1);
 	tmp = read_line(fd, tmp);
 	if (tmp == NULL)
+	{	
+		ft_bzero(buff, BUFFER_SIZE +1);
 		return (NULL);
+	}
 	if (tmp[0] == '\0')
 	{
 		free(tmp);
@@ -79,6 +104,8 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	tmp = truncate_tmp(tmp, &line);
+	ft_strlcpy(buff, tmp, BUFFER_SIZE + 1);
+	free(tmp);
 	return (line);
 }
 
