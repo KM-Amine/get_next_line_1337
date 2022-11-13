@@ -5,31 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/22 10:50:49 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/11/11 14:39:31 by mkhellou         ###   ########.fr       */
+/*   Created: 2022/11/11 11:03:37 by mkhellou          #+#    #+#             */
+/*   Updated: 2022/11/13 15:47:38 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <unistd.h>
 # include <stdlib.h>
+# include <unistd.h>
 
-char	*get_next_line(int fd);
+size_t		ft_strlen(char	*s);
+void		ft_bzero(void *str, size_t len);
+void		*ft_calloc(size_t count, size_t size);
+char		*ft_strchr(char *str, char c);
+void		ft_strlcpy(char *dest, char *src, size_t len);
 
-char	*read_line(int fd, char *tmp);
-char	*truncate_tmp(char *tmp, char **line);
+char		*ft_substr(char *src, size_t start, size_t lenth);
+char		*ft_strjoin(char *s1, char *s2);
+char		*ft_read_line(char *tmp, int fd);
+char		*ft_turncate_line(char *tmp, char **line);
 
-size_t	ft_strlen(const char *s);
-void	ft_bzero(void *s, size_t n);
-char	*ft_strchr(const char *s, int c);
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char		*get_next_line(int fd);
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE   10000000
 # endif
 
 #endif

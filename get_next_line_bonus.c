@@ -5,118 +5,128 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/24 07:38:54 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/11/11 14:40:52 by mkhellou         ###   ########.fr       */
+/*   Created: 2022/11/11 11:03:42 by mkhellou          #+#    #+#             */
+/*   Updated: 2022/11/13 18:21:07 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*read_line(int fd, char *tmp)
+char	*ft_substr(char *s, size_t start, size_t len)
 {
-	char	buff[BUFFER_SIZE + 1];
+	char	*res;
+
+	if (s == NULL)
+		return (NULL);
+	if (len > ft_strlen(s) - start)
+		len = ft_strlen(s) - start;
+	if (start >= ft_strlen(s))
+		return ((char *)ft_calloc(1, sizeof(char)));
+	res = (char *)ft_calloc(len + 1, sizeof(char));
+	if (!res)
+		return (0);
+	ft_strlcpy(res, &s[start], len + 1);
+	return (res);
+}
+
+//free in the end of strjoin
+char	*ft_strjoin(char	*s1, char	*s2)
+{
+	int		len;
+	char	*result;
+
+	if (s1 == NULL && s2 == NULL)
+		return (NULL);
+	len = ft_strlen(s1);
+	len += ft_strlen((s2));
+	result = (char *)ft_calloc(sizeof(char), len + 1);
+	if (!result)
+	{
+		free(s1);
+		return (NULL);
+	}
+	ft_strlcpy(result, s1, ft_strlen(s1) + 1);
+	ft_strlcpy(result + ft_strlen(s1), s2, ft_strlen(s2) + 1);
+	free(s1);
+	return (result);
+}
+
+char	*ft_read_line(char *tmp, int fd)
+{
 	int		is_read;
+	char	*buff;
 
 	is_read = 1;
-	ft_bzero(buff, BUFFER_SIZE + 1);
-	while (ft_strchr(tmp, '\n') == 0 && is_read != 0)
+	buff = (char *)ft_calloc(sizeof(char), BUFFER_SIZE +1);
+	if (buff == NULL)
+		return (0);
+	while (is_read != 0 && ft_strchr(tmp, '\n') == 0)
 	{
 		is_read = read(fd, buff, BUFFER_SIZE);
 		if (is_read == -1)
 		{
 			free(tmp);
+			free(buff);
 			return (NULL);
 		}
 		tmp = ft_strjoin(tmp, buff);
 		if (tmp == NULL)
+		{
+			free(buff);
 			return (NULL);
+		}
 		ft_bzero(buff, BUFFER_SIZE + 1);
 	}
-	return (tmp);
+	return (free(buff), tmp);
 }
 
-char	*truncate_tmp(char *tmp, char **line)
+char	*ft_turncate_line(char *tmp, char **line)
 {
-	int		len;
-	char	*str;
-
-	len = 0;
-	while (tmp[len] != '\n' && tmp[len] != '\0' )
-		len++;
-	*line = ft_substr(tmp, 0, len + 1);
-	if (*line == NULL)
-		return (NULL);
-	if (ft_strchr(tmp, '\n') == 0)
-	{
-		free(tmp);
-		return (NULL);
-	}
-	str = tmp;
-	tmp = ft_substr(tmp, len + 1, ft_strlen(tmp));
-	if (tmp == NULL)
-	{
-		free(*line);
-		return (NULL);
-	}
-	free(str);
-	return (tmp);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
+	int		i;
+	char	*remain;
 
 	i = 0;
-	if (!dstsize || !src)
-	{
-		ft_bzero(dst, BUFFER_SIZE +1);
-		return (ft_strlen(src));
-	}
-	while (src[i] && i < dstsize - 1)
-	{
-		dst[i] = src[i];
+	while (tmp[i] != '\n' && tmp[i] != '\0')
 		i++;
+	*line = ft_substr(tmp, 0, i + 1);
+	if (*line == NULL)
+	{
+		*line = NULL;
+		return (NULL);
 	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
+	remain = ft_substr(tmp, i + 1, ft_strlen(tmp));
+	if (remain == NULL)
+	{
+		free(*line);
+		*line = NULL;
+		return (tmp);
+	}
+	free(tmp);
+	return (remain);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	buff[OPEN_MAX][BUFFER_SIZE +1];
-	char		*tmp;
+	static char	*tmp[OPEN_MAX];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd == 1 || fd == 2)
 		return (NULL);
-	tmp = (char *)calloc(1, BUFFER_SIZE + 1);
-	ft_strlcpy(tmp, buff[fd], BUFFER_SIZE + 1);
-	tmp = read_line(fd, tmp);
-	if (tmp == NULL)
-	{	
-		ft_bzero(buff[fd], BUFFER_SIZE +1);
+	if (tmp[fd] == NULL)
+		tmp[fd] = (char *)ft_calloc(sizeof(char), 1);
+	if (tmp[fd] == NULL)
 		return (NULL);
-	}
-	if (tmp[0] == '\0')
+	tmp[fd] = ft_read_line(tmp[fd], fd);
+	if (tmp[fd] == NULL)
+		return (NULL);
+	if (tmp[fd][0] == 0)
 	{
-		free(tmp);
-		tmp = NULL;
+		free(tmp[fd]);
+		tmp[fd] = NULL;
 		return (NULL);
 	}
-	tmp = truncate_tmp(tmp, &line);
-	ft_strlcpy(buff[fd], tmp, BUFFER_SIZE + 1);
-	free(tmp);
+	tmp[fd] = ft_turncate_line(tmp[fd], &line);
+	if (tmp[fd] == NULL || line == NULL)
+		return (NULL);
 	return (line);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	if (s == NULL)
-		return (0);
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
 }
