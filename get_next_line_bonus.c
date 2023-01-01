@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 11:03:42 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/11/13 18:21:07 by mkhellou         ###   ########.fr       */
+/*   Updated: 2023/01/01 17:44:18 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	*get_next_line(int fd)
 	static char	*tmp[OPEN_MAX];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || fd == 1 || fd == 2)
+	if (fd < 0 || BUFFER_SIZE <= 0 )
 		return (NULL);
 	if (tmp[fd] == NULL)
 		tmp[fd] = (char *)ft_calloc(sizeof(char), 1);
